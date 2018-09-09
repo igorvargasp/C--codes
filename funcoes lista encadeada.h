@@ -1,7 +1,7 @@
 lista* concatena (lista* l1, lista2* l2)
 {
-     lista* p;   /* variável auxiliar para percorrer a lista */
-     lista* q;   /* variável auxiliar para criar a nova lista */
+     lista* p;   /* variÃ¡vel auxiliar para percorrer a lista */
+     lista* q;   /* variÃ¡vel auxiliar para criar a nova lista */
 
         if (l1 == NULL) 
         return l2;
@@ -113,7 +113,6 @@ lista *retiraLast(lista *l){
 								//retira o ultimo;	
 	
 }
-gia paige
 
 
 
