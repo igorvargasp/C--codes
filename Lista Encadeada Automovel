@@ -1,0 +1,161 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Dados{
+
+	char placa[9],tipo[50],cor[50];
+	int anoF;
+	float preco;
+};
+
+struct Elemento{
+    struct Dados dados;
+    struct Elemento *prox;
+};
+
+
+typedef struct Elemento *lista;
+
+
+lista* criaLista(){
+   lista *d=(lista*)malloc(sizeof(lista));
+       printf("Alocou\n");
+    if(d!=NULL){
+
+    *d = NULL;
+    }
+    return d;
+
+}
+
+int Cadastra(lista *li,struct Dados d){
+
+	if( li == NULL){
+		printf("Algo deu errado");
+	return 0;
+	}
+	struct Elemento *l =(struct Elemento*)malloc(sizeof(struct Elemento));
+	if( l == NULL){
+		printf("Não alocou\n");
+	}else{
+	l->dados = d;
+	l->prox = (*li);
+	*li = l;	
+	}
+	
+	
+
+	printf("Cadastrado com sucesso!!\n");
+	return 1;
+}
+
+Relatorio(lista *li){
+	struct Elemento *aux = *li;
+	int cont =0;
+	while(aux!=NULL){
+		
+		printf("TIPO:%s\n",aux->dados.tipo);
+		printf("PLACA:%s\n",aux->dados.placa);
+		printf("COR:%s\n",aux->dados.cor);
+		printf("ANO:%d\n",aux->dados.anoF);
+		printf("PRECO:%.2f\n",aux->dados.preco);
+		printf("\n");
+	aux=aux->prox;
+	cont++;
+	}
+	printf("Existe %d Cadastrados em nosso sistema\n",cont);
+}
+
+
+Consulta(lista *li, char nome[50]){
+	struct Elemento *l = *li;
+	while(l !=NULL){
+		if(strcmp(l->dados.placa,nome)==0){
+		printf("TIPO: %s \n",l->dados.tipo);
+		printf("PLACA: %s\n",l->dados.placa);
+		printf("COR: %s  \n",l->dados.cor);
+		printf("ANO: %d\n",l->dados.anoF);
+		printf("PRECO: %.2f\n",l->dados.preco);
+		printf("\n");
+		}else{
+			printf("Automovel Nao Encontrado!\n");
+			break;
+		}
+		
+	l = l->prox;	
+	}
+}
+
+int Venda(lista *li, char nome[50]){
+	
+		struct Elemento *ant,*no = *li;
+		while(no->prox != NULL){
+			
+			if(strcmp(no->dados.placa,nome)!=0){
+				ant = no;	
+				no = no->prox;
+			}else{
+			if(no == (*li)){
+			printf("Entrou IF\n");
+			*li = no->prox;	
+			}else{
+				printf("Entrou Else\n");
+				ant->prox = no->prox;
+				printf("O automovel de placa %s foi removido com sucesso!\n",no->dados.placa);		
+			} 
+			free(no);		
+		}
+			
+		}
+	
+	return 1;
+}
+
+main(){
+
+	struct Dados d;
+	lista *li;
+	li =criaLista();
+	char nome[50];
+	int x;
+
+	do{
+		printf("1-Cadastrar:\n");
+		printf("2-Vender:\n");
+		printf("3-Procurar:\n");
+		printf("4-Relatorio:\n");
+		scanf("%d",&x);
+		getchar();
+		if( x == 1){
+			printf("Digite o Tipo de Automovel:");
+			gets(d.tipo);
+			printf("Digite a Placa do Automovel:");
+			gets(d.placa);
+			printf("Digite a Cor do Automovel:");
+			gets(d.cor);
+			printf("Digite o Ano do Automovel:");
+			fflush(stdin);
+			scanf("%d",&d.anoF);
+			printf("Digite o Preco do Automovel:");		
+			scanf("%f",&d.preco);
+			Cadastra(li,d);
+
+		}else if( x == 2){
+			printf("Digite a placa do automovel:");
+			gets(nome);
+			Venda(li,nome);
+		}else if( x == 3){
+			printf("Digite a placa do automovel:");
+			gets(nome);
+			Consulta(li,nome);
+		}else if( x == 4){
+			Relatorio(li);
+
+		}else{
+			break;
+		}
+
+	}while(x!=5);
+
+}
